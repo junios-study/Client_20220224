@@ -47,12 +47,11 @@ int main()
 		exit(-1);
 	}
 
-	NumberPacket Packet;
-
-	Packet.Number1 = 10;
-	Packet.Number2 = 20;
-
-	send(ServerSocket, (char*)(&Packet), sizeof(Packet) , 0);
+	string Numbers = "30\n";
+	send(ServerSocket, Numbers.c_str(), Numbers.length() , 0);
+	Numbers = "20\n";
+	send(ServerSocket, Numbers.c_str(), Numbers.length() + 1, 0);
+	
 
 	char Result[1024];
 	recv(ServerSocket, Result, 1023, 0);
