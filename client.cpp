@@ -2,10 +2,16 @@
 
 #include <WinSock2.h>
 #include <iostream>
+#include <string>
 
 using namespace std;
 
 #pragma comment(lib, "ws2_32.lib")
+
+struct NumberPacket {
+	int Number1;
+	int Number2;
+};
 
 int main()
 {
@@ -41,24 +47,17 @@ int main()
 		exit(-1);
 	}
 
-	//5. 받기
-	char Buffer[1024] = { 0, };
-	cin.getline(Buffer, 1023);
-	send(ServerSocket, Buffer, strlen(Buffer) + 1, 0);
+	NumberPacket Packet;
 
-	int RecvLength = recv(ServerSocket, Buffer, 1024, 0);
-	if (RecvLength == 0)
-	{
-		cout << "close : " << GetLastError() << endl;
-		exit(-1);
-	}
-	else if (RecvLength < 0)
-	{
-		cout << "Error : " << GetLastError() << endl;
-		exit(-1);
-	}
+	Packet.Number1 = 10;
+	Packet.Number2 = 20;
 
-	cout << "Server Sended : " << Buffer << endl;
+	send(ServerSocket, (char*)(&Packet), sizeof(Packet) , 0);
+
+	char Result[1024];
+	recv(ServerSocket, Result, 1023, 0);
+
+	cout << "Server Sended : " << Result << endl;
 
 	//6. 소켓 닫기
 	closesocket(ServerSocket);
