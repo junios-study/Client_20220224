@@ -43,6 +43,9 @@ int main()
 
 	//5. 받기
 	char Buffer[1024] = { 0, };
+	cin.getline(Buffer, 1023);
+	send(ServerSocket, Buffer, strlen(Buffer) + 1, 0);
+
 	int RecvLength = recv(ServerSocket, Buffer, 1024, 0);
 	if (RecvLength == 0)
 	{
@@ -55,7 +58,7 @@ int main()
 		exit(-1);
 	}
 
-	cout << Buffer << endl;
+	cout << "Server Sended : " << Buffer << endl;
 
 	//6. 소켓 닫기
 	closesocket(ServerSocket);
